@@ -1,0 +1,19 @@
+<h1>Movie Index</h1>
+<% for movie in @movies %>
+<li style="display: flex;">
+<%= link_to movie.title, movie_path(movie.id) %> 
+ - 
+<%= movie.run_time %>
+
+<form action="<%= movie_path(movie.id) %>" method="POST">
+<input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token" />
+<input type="hidden" name="_method" value="delete" />
+
+<button type="submit">Delete</button>
+</form>
+
+
+
+
+</li>
+<% end %>
