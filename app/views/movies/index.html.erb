@@ -1,19 +1,48 @@
 <h1>Movie Index</h1>
-<% for movie in @movies %>
-<li style="display: flex;">
-<%= link_to movie.title, movie_path(movie.id) %> 
- - 
-<%= movie.run_time %>
 
-<form action="<%= movie_path(movie.id) %>" method="POST">
+<table style="width:100%; border: 1px solid black; border-collapse: collapse;">
+<tr>
+<th style=" width: 50%; border: 1px solid black; border-collapse: collapse; background: dodgerblue; color: black; padding: 10px; font-size: 1.9vw;">Movie Name</th>
+<th style=" width: 10%; border: 1px solid black; border-collapse: collapse; background: dodgerblue; color: black; padding: 10px; font-size: 1.9vw;">Movie Length</th>
+<th style=" width: 10%; border: 1px solid black; border-collapse: collapse; background: dodgerblue; color: black; padding: 10px; font-size: 1.9vw;">Adult Rated?</th>
+<th style=" width: 20%; border: 1px solid black; border-collapse: collapse; background: dodgerblue; color: black; padding: 10px; font-size: 1.9vw;">Options</th>
+</tr>
+<% for movie in @movies %>
+
+<tr>
+<td style="border: 1px solid black; border-collapse: collapse; padding: 10px;"><%= link_to movie.title, movie_path(movie.id) %></td>
+<td style="border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: center;"><%= t = Time.at(movie.run_time*60).utc.strftime("%H:%M")  %></td>
+<td style="border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: center;"><% if movie.adult_rated == true %>
+MA15+
+<% else  %>
+PG
+<% end %>
+</td>
+<td style="border: 1px solid black; border-collapse: collapse; padding: 10px; display: flex;"><form action="<%= movie_path(movie.id) %>" method="POST">
 <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token" />
 <input type="hidden" name="_method" value="delete" />
 
 <button type="submit">Delete</button>
 </form>
 
+<form action="<%link_to @edit, movie_path(movie.id)%>">
+
+
+<button type="submit">Edit</button>
+</form>
 
 
 
-</li>
+
+
+<%= button_to "view", movie_path(movie.id) %>
+
+
+</td>
+
+
+
+
 <% end %>
+</tr>
+</table>
